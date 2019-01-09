@@ -6,6 +6,7 @@ import time
 help = """
     =====FUNCIONES DEL CLIENTE=======
     -local-ls: Muestra los archivos de este ordenador
+    -local-cd: Cambia de directorio en este ordenador
     -exit : Cierra la conexion con el servidor
     -help: Muestra este mensaje
     =====FUNCIONES DEL SERVIDOR======
@@ -41,7 +42,7 @@ while 1:
             print "No se puede acceder al directorio"
         else:
             print respuesta
-            
+
     if mensaje[0:4] == "load":
         nombre_archivo = mensaje[5:len(mensaje)]
         if nombre_archivo not in os.listdir("."):
@@ -66,9 +67,12 @@ while 1:
         for x in os.listdir("."):
             lista += x + "\n"
         print lista
+    if mensaje[0:8] == "local-cd":
+        os.chdir(mensaje[9:len(mensaje)])
     if mensaje[0:8] == "download":
         socket.send(mensaje)
         contenido = socket.recv(10000)
-        archivo = open(mensaje[10:len(mensaje)],"w")
-        archivo.write(contenido)
-        archivo.close()
+        if contenido != "No hay archivo":
+            archivo = open(mensaje[10:len(mensaje)],"w")
+            archivo.write(contenido)
+            archivo.close()
