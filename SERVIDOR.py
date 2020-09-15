@@ -110,7 +110,7 @@ def walk():
 def read(nombre):
     try:
         archivo = open(nombre , "r")
-        return (len(archivo.read())archivo.read())
+        return len(archivo.read())
     except IOError:
         return (len("archivo no encontrado"),"archivo no encontrado")
 def ls(direccion_actual):
